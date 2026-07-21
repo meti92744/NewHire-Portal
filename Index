@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>METI | New Hire Portal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy: #1b3a63;
+    --blue: #2f6fd1;
+    --lightblue: #6fb3e8;
+    --bg: #eef2f6;
+    --panel: #ffffff;
+    --line: #dde5ec;
+    --text: #1b2836;
+    --text-dim: #6b7c8d;
+    --danger: #d64f4f;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:24px;
+    background-image:
+      radial-gradient(circle at 12% 15%, rgba(47,111,209,0.07), transparent 40%),
+      radial-gradient(circle at 88% 85%, rgba(111,179,232,0.10), transparent 40%);
+  }
+  .card{
+    width:100%;
+    max-width:480px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 36px 32px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 12px 32px rgba(27,58,99,0.08);
+  }
+  .card::before{
+    content:'';
+    position:absolute;
+    top:0; left:0; right:0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--navy), var(--blue), var(--lightblue));
+  }
+
+  .brand{
+    display:flex;
+    align-items:center;
+    gap: 12px;
+    margin-bottom: 28px;
+    padding-bottom: 22px;
+    border-bottom: 1px solid var(--line);
+  }
+  .brand svg{ flex-shrink:0; }
+  .brand-text .name{
+    font-family:'Inter', sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: #111417;
+    line-height: 1;
+  }
+  .brand-text .tagline{
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 1.2px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    margin-top: 3px;
+  }
+
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--blue);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    font-weight: 600;
+  }
+  h1{
+    font-size: 21px;
+    font-weight: 700;
+    margin-bottom: 4px;
+    color: var(--navy);
+  }
+  .sub{
+    color: var(--text-dim);
+    font-size: 13.5px;
+    margin-bottom: 26px;
+  }
+  .field label{
+    display:block;
+    font-size: 12.5px;
+    color: var(--text-dim);
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .input-row{
+    display:flex;
+    gap:10px;
+  }
+  input#cardInput{
+    flex:1;
+    background: #f7f9fb;
+    border: 1.5px solid var(--line);
+    color: var(--text);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 16px;
+    letter-spacing: 1px;
+    padding: 13px 14px;
+    border-radius: 6px;
+    outline:none;
+    transition: border-color .15s;
+  }
+  input#cardInput:focus{ border-color: var(--blue); background: #fff; }
+  .hint{
+    font-size: 11px;
+    color: var(--text-dim);
+    margin-top: 6px;
+    font-family:'IBM Plex Mono', monospace;
+  }
+  button#searchBtn{
+    background: var(--navy);
+    color: #ffffff;
+    border:none;
+    font-family:'Inter', sans-serif;
+    font-weight:600;
+    font-size:14px;
+    padding: 0 24px;
+    border-radius: 6px;
+    cursor:pointer;
+    transition: background .15s;
+  }
+  button#searchBtn:hover{ background: var(--blue); }
+  button#searchBtn:disabled{ opacity:.5; cursor:default; }
+
+  .state{
+    margin-top: 22px;
+    font-size: 13.5px;
+    color: var(--text-dim);
+    font-family:'IBM Plex Mono', monospace;
+    display:none;
+  }
+  .state.show{display:block;}
+  .state.error{ color: var(--danger); }
+
+  .result{
+    margin-top: 26px;
+    display:none;
+  }
+  .result.show{display:block;}
+  .result-name{
+    font-size: 19px;
+    font-weight: 700;
+    margin-bottom: 2px;
+    color: var(--navy);
+  }
+  .result-id{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--text-dim);
+    margin-bottom: 22px;
+  }
+  .day-counter{
+    background: linear-gradient(135deg, var(--navy), var(--blue));
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    margin-bottom: 18px;
+  }
+  .day-number{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 44px;
+    font-weight: 600;
+    color: #ffffff;
+    line-height:1;
+  }
+  .day-label{
+    font-size: 12.5px;
+    color: rgba(255,255,255,0.85);
+    margin-top: 6px;
+  }
+  .meta-grid{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .meta-box{
+    background: #f7f9fb;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 12px 14px;
+  }
+  .meta-box .k{
+    font-size: 11px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+    font-weight: 600;
+  }
+  .meta-box .v{
+    font-size: 14.5px;
+    font-weight: 700;
+    color: var(--navy);
+  }
+  .footer-note{
+    margin-top: 26px;
+    font-size: 11px;
+    color: var(--text-dim);
+    text-align:center;
+    font-family:'IBM Plex Mono', monospace;
+  }
+</style>
+</head>
+<body>
+
+<div class="card">
+
+  <div class="brand">
+    <svg width="50" height="34" viewBox="0 0 50 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="metiGrad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#2fa9ea"/>
+          <stop offset="100%" stop-color="#0b3fd6"/>
+        </linearGradient>
+      </defs>
+      <!-- large parallelogram (top) -->
+      <path d="M11 0 L28 0 L44 18 L27 18 Z" fill="url(#metiGrad)"/>
+      <!-- small parallelogram (bottom-left) -->
+      <path d="M0 16 L13 16 L26 34 L13 34 Z" fill="url(#metiGrad)"/>
+    </svg>
+    <div class="brand-text">
+      <div class="name">METI</div>
+      <div class="tagline">Micro Engineering Tech Inc.</div>
+    </div>
+  </div>
+
+  <div class="eyebrow">MEEG · Training Center</div>
+  <h1>New Hire Portal</h1>
+  <div class="sub">Enter your ID card number to view your join date, tenure, and assigned workstation.</div>
+
+  <div class="field">
+    <label for="cardInput">ID Card Number</label>
+    <div class="input-row">
+      <input type="text" id="cardInput" placeholder="e.g. 29901234567890" inputmode="numeric" maxlength="14" autocomplete="off">
+      <button id="searchBtn">Search</button>
+    </div>
+    <div class="hint">14 digits</div>
+  </div>
+
+  <div class="state" id="stateMsg"></div>
+
+  <div class="result" id="resultBox">
+    <div class="result-name" id="resName">—</div>
+    <div class="result-id" id="resId">—</div>
+
+    <div class="day-counter">
+      <div class="day-number" id="dayCount">0</div>
+      <div class="day-label">days since joining</div>
+    </div>
+
+    <div class="meta-grid">
+      <div class="meta-box">
+        <div class="k">Join Date</div>
+        <div class="v" id="resJoinDate">—</div>
+      </div>
+      <div class="meta-box">
+        <div class="k">Unit</div>
+        <div class="v" id="resUnit">—</div>
+      </div>
+      <div class="meta-box" style="grid-column: 1 / -1;">
+        <div class="k">Assigned PC</div>
+        <div class="v" id="resPc">—</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-note">MEEG · A METI Company</div>
+</div>
+
+<script>
+  // Replace with your deployed Apps Script Web App URL
+  const API_URL = "https://script.google.com/macros/s/AKfycbzsxan9hW4-ccmyxoB8DF5O5hkfXlWOY7xbxFmBCXOYCyRfgF990Yt4qOq4SBZ85et2rA/exec";
+
+  const input = document.getElementById('cardInput');
+  const btn = document.getElementById('searchBtn');
+  const stateMsg = document.getElementById('stateMsg');
+  const resultBox = document.getElementById('resultBox');
+
+  // only digits, max 14
+  input.addEventListener('input', () => {
+    input.value = input.value.replace(/\D/g, '').slice(0, 14);
+  });
+
+  function showState(msg, isError){
+    stateMsg.textContent = msg;
+    stateMsg.className = 'state show' + (isError ? ' error' : '');
+    resultBox.classList.remove('show');
+  }
+
+  function clearState(){
+    stateMsg.className = 'state';
+  }
+
+  async function lookup(){
+    const id = input.value.trim();
+    if(!id){
+      showState('Please enter your ID card number');
+      return;
+    }
+    if(id.length !== 14){
+      showState('ID card number must be 14 digits', true);
+      return;
+    }
+
+    btn.disabled = true;
+    showState('Searching...');
+
+    try{
+      const res = await fetch(`${API_URL}?employeeId=${encodeURIComponent(id)}`);
+      const data = await res.json();
+
+      if(!data.success){
+        showState(data.message || 'ID card number not found', true);
+        return;
+      }
+
+      clearState();
+
+      const joinDate = new Date(data.joinDate);
+      const today = new Date();
+      const diffDays = Math.max(0, Math.floor((today - joinDate) / 86400000));
+
+      document.getElementById('resName').textContent = data.name || '—';
+      document.getElementById('resId').textContent = 'ID: ' + data.employeeId;
+      document.getElementById('dayCount').textContent = diffDays;
+      document.getElementById('resJoinDate').textContent = joinDate.toLocaleDateString('en-GB', { year:'numeric', month:'long', day:'numeric' });
+      document.getElementById('resUnit').textContent = data.unit || '—';
+      document.getElementById('resPc').textContent = data.pc || '—';
+
+      resultBox.classList.add('show');
+
+    }catch(err){
+      showState('Connection error, please try again', true);
+    }finally{
+      btn.disabled = false;
+    }
+  }
+
+  btn.addEventListener('click', lookup);
+  input.addEventListener('keydown', (e) => { if(e.key === 'Enter') lookup(); });
+</script>
+
+</body>
+</html>

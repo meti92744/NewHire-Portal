@@ -221,6 +221,23 @@
     text-align:center;
     font-family:'IBM Plex Mono', monospace;
   }
+
+  @media (max-width: 480px){
+    body{ padding: 12px; align-items: flex-start; }
+    .card{ padding: 24px 18px; border-radius: 8px; }
+    .brand{ gap: 10px; margin-bottom: 22px; padding-bottom: 16px; }
+    .brand svg{ width: 40px; height: 27px; }
+    .brand-text .name{ font-size: 18px; }
+    .brand-text .tagline{ font-size: 8px; }
+    h1{ font-size: 18px; }
+    .sub{ font-size: 13px; margin-bottom: 20px; }
+    .input-row{ flex-direction: column; }
+    input#cardInput{ font-size: 16px; width: 100%; }
+    button#searchBtn{ padding: 13px 24px; width: 100%; }
+    .meta-grid{ grid-template-columns: 1fr; }
+    .day-number{ font-size: 36px; }
+    .result-name{ font-size: 17px; }
+  }
 </style>
 </head>
 <body>
@@ -295,7 +312,7 @@
 
 <script>
   // Replace with your deployed Apps Script Web App URL
-  const API_URL = "https://script.google.com/macros/s/AKfycbyPMOjjTi5ShPPeXACTdw0aHbf-1uK4DjAH2Z78bsNcHwZwqLShcJJdsiO_e-a3d7uUKw/exec";
+  const API_URL = "https://script.google.com/macros/s/AKfycbwNIO2v_oRbaCz2opYQeVQJuTvJoc_GX5a11xrnBpWAXw4EZjDcWq-a1Ef1VKoLuHTvwQ/exec";
 
   const input = document.getElementById('cardInput');
   const btn = document.getElementById('searchBtn');

@@ -276,12 +276,16 @@
         <div class="v" id="resJoinDate">—</div>
       </div>
       <div class="meta-box">
-        <div class="k">Unit</div>
-        <div class="v" id="resUnit">—</div>
-      </div>
-      <div class="meta-box" style="grid-column: 1 / -1;">
         <div class="k">Assigned PC</div>
         <div class="v" id="resPc">—</div>
+      </div>
+      <div class="meta-box">
+        <div class="k">Shift Time</div>
+        <div class="v" id="resShift">—</div>
+      </div>
+      <div class="meta-box">
+        <div class="k">Unit</div>
+        <div class="v" id="resUnit">—</div>
       </div>
     </div>
   </div>
@@ -348,6 +352,7 @@
       document.getElementById('resJoinDate').textContent = joinDate.toLocaleDateString('en-GB', { year:'numeric', month:'long', day:'numeric' });
       document.getElementById('resUnit').textContent = data.unit || '—';
       document.getElementById('resPc').textContent = data.pc || '—';
+      document.getElementById('resShift').textContent = data.shift || '—';
 
       resultBox.classList.add('show');
 

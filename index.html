@@ -360,7 +360,7 @@
     stateMsg.className = 'state';
   }
 
-  function renderAttendance(list, checkedInNow){
+  function renderAttendance(list, checkedInNow, extra, extraNow){
     const box = document.getElementById('attBox');
     const listEl = document.getElementById('attList');
     const todayEl = document.getElementById('attToday');
@@ -392,6 +392,15 @@
       row.appendChild(badge);
       listEl.appendChild(row);
     });
+
+    if(extra){
+      const row = document.createElement('div');
+      row.className = 'att-row';
+      row.innerHTML = '<div><div class="d">Saturday</div><div class="dt"></div></div><span class="badge present">Extra Day</span>';
+      row.querySelector('.dt').textContent = new Date(extra.date).toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' });
+      listEl.appendChild(row);
+      todayEl.textContent = extraNow ? "✓ Extra day attendance has been recorded" : "";
+    }
 
     const todayItem = list.find(i => i.isToday && i.status === 'present');
     if(todayItem){
@@ -436,7 +445,7 @@
       document.getElementById('resPc').textContent = data.pc || '—';
       document.getElementById('resShift').textContent = data.shift || '—';
 
-      renderAttendance(data.attendance || [], data.checkedInNow);
+      renderAttendance(data.attendance || [], data.checkedInNow, data.extra, data.extraNow);
 
       resultBox.classList.add('show');
 
